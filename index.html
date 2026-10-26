@@ -6,6 +6,7 @@
 <title>Dipon Deb Dipu</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Dipon Deb Dipu, embedded systems engineer and M.Sc. student at Uppsala University. A walk through an FPGA floorplan.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2034%2034%22%3E%3Crect%20width%3D%2234%22%20height%3D%2234%22%20rx%3D%226%22%20fill%3D%22%2305090b%22/%3E%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%2222%22%20height%3D%2222%22%20rx%3D%222%22%20fill%3D%22none%22%20stroke%3D%22%235ef2d6%22%20stroke-width%3D%221.8%22/%3E%3Cpath%20d%3D%22M11%202v4M17%202v4M23%202v4M11%2028v4M17%2028v4M23%2028v4M2%2011h4M2%2017h4M2%2023h4M28%2011h4M28%2017h4M28%2023h4%22%20stroke%3D%22%23d08a4c%22%20stroke-width%3D%221.8%22/%3E%3Ctext%20x%3D%2217%22%20y%3D%2220.6%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%229.5%22%20fill%3D%22%23e6efed%22%3E3D%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -349,6 +350,26 @@ a.pinl:hover{background:color-mix(in srgb,var(--acc) 10%,transparent)}
 .cvcard span{color:var(--muted);font-family:var(--f-mono);font-size:.8rem}
 .cvcard:hover{border-color:var(--acc)}
 @media (max-width:900px){.io-grid{grid-template-columns:1fr}}
+/* ---------- mobile floorplan bar ---------- */
+.mbar{display:none}
+@media (max-width:1100px){
+  .mbar{display:block;position:fixed;z-index:25;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));
+    padding:5px;background:rgba(5,9,11,.9);border:1px solid var(--copper-dim);border-radius:8px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.6)}
+  .mtrack{display:flex;gap:3px;height:38px}
+  .mbar a{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;border:1px solid var(--line-2);border-radius:3px;background:rgba(9,16,19,.85);
+    font-family:var(--f-mono);font-size:.62rem;letter-spacing:.04em;color:var(--muted);overflow:hidden;white-space:nowrap;transition:flex-grow .45s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,color .3s}
+  .mbar a b{font-weight:500}
+  .mbar a.done{border-color:color-mix(in srgb,var(--copper) 60%,transparent);color:var(--copper)}
+  .mbar a.on{flex-grow:3.4;border-color:var(--acc);color:var(--fg);background:color-mix(in srgb,var(--acc) 14%,#091013);box-shadow:inset 0 0 12px color-mix(in srgb,var(--acc) 25%,transparent)}
+  .mbar .sub{display:none;gap:2px}
+  .mbar a.on .sub{display:flex}
+  .mbar .sub i{width:6px;height:14px;border:1px solid var(--line-2);border-radius:1px;background:rgba(5,9,11,.9);transition:background .3s,border-color .3s,box-shadow .3s}
+  .mbar .sub i.wr{background:color-mix(in srgb,var(--acc) 30%,#05090b);border-color:color-mix(in srgb,var(--acc) 70%,transparent)}
+  .mbar .sub i.lit{background:var(--acc);border-color:#fff;box-shadow:0 0 6px var(--acc)}
+  footer{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:380px){.mbar a{font-size:.56rem}.mbar a.on{flex-grow:3}}
+
 footer{border-top:1px solid var(--line);padding-block:24px;font-family:var(--f-mono);font-size:.76rem;color:var(--muted);letter-spacing:.08em}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
@@ -373,8 +394,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <header class="top" id="top-bar">
   <div class="bar">
-    <a class="brand" href="#cfg" aria-label="Dipon Deb Dipu, top of page">
-      <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="7" y="7" width="20" height="20" rx="2" fill="none" stroke="var(--acc)" stroke-width="1.5"/><path d="M11 3v4M17 3v4M23 3v4M11 27v4M17 27v4M23 27v4M3 11h4M3 17h4M3 23h4M27 11h4M27 17h4M27 23h4" stroke="var(--copper)" stroke-width="1.5"/><text x="17" y="21" text-anchor="middle" font-family="Michroma,sans-serif" font-size="9" fill="var(--fg)">D</text></svg>
+    <a class="brand" href="#cfg" aria-label="3D, Dipon Deb Dipu, top of page">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="6" width="22" height="22" rx="2" fill="none" stroke="var(--acc)" stroke-width="1.5"/><path d="M11 3v4M17 3v4M23 3v4M11 27v4M17 27v4M23 27v4M3 11h4M3 17h4M3 23h4M27 11h4M27 17h4M27 23h4" stroke="var(--copper)" stroke-width="1.5"/><text x="17" y="20.2" text-anchor="middle" font-family="Michroma,sans-serif" font-size="7.6" letter-spacing="-.2" fill="var(--fg)">3D</text></svg>
       <span>DIPU</span>
     </a>
     <nav class="nav" id="nav" aria-label="Sections">
@@ -409,6 +430,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </svg>
   <div class="die-hud" id="die-hud"><b>CFG · 01/08</b>Configuration and boot<br>CLK 100 MHz · SLACK +0.42 ns</div>
 </aside>
+<nav class="mbar" aria-label="Floorplan navigation"><div class="mtrack"><a href="#cfg" data-i="0"><b>CFG</b></a><a href="#ps" data-i="1"><b>PS</b></a><a href="#clb" data-i="2"><b>CLB</b></a><a href="#dsp" data-i="3"><b>DSP</b><span class="sub"><i class="mds" data-k="0"></i><i class="mds" data-k="1"></i><i class="mds" data-k="2"></i><i class="mds" data-k="3"></i><i class="mds" data-k="4"></i><i class="mds" data-k="5"></i><i class="mds" data-k="6"></i></span></a><a href="#bram" data-i="4"><b>BRAM</b><span class="sub"><i class="mbm" data-k="0"></i><i class="mbm" data-k="1"></i><i class="mbm" data-k="2"></i><i class="mbm" data-k="3"></i></span></a><a href="#gt" data-i="5"><b>GT</b></a><a href="#gpio" data-i="6"><b>GPIO</b></a><a href="#io" data-i="7"><b>I/O</b></a></div></nav>
 
 <main id="main">
   <div class="route-v" id="route-v" aria-hidden="true"><i></i></div>
@@ -664,15 +686,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   function setRegion(i){ if(i===cur) return; cur=i; const s=secs[i];
     document.documentElement.style.setProperty('--acc',s.dataset.acc);
     blks.forEach((b,j)=>{ b.classList.toggle('on',j===i); b.classList.toggle('done',j<i); });
+    $$('.mbar a').forEach((a,j)=>{ a.classList.toggle('on',j===i); a.classList.toggle('done',j<i); });
     hud.innerHTML=`<b>${s.dataset.region} · ${String(i+1).padStart(2,'0')}/08</b>${s.dataset.label}<br>ADDR 0x${(0x40000000+i*0x10000).toString(16).toUpperCase()} · SLACK +0.${42-i*3} ns`;
     navA.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+s.id));
   }
-  const dsRects=$$('.die .ds'), slices=$$('.slice');
+  const dsRects=$$('.die .ds'), slices=$$('.slice'), mDs=$$('.mbar .mds'), mBm=$$('.mbar .mbm');
   function litSlices(active){
     const left=innerWidth>1100?260:0;
     slices.forEach((sl,k)=>{ let on=false;
-      if(active){ const r=sl.getBoundingClientRect(); const vis=Math.min(r.right,innerWidth)-Math.max(r.left,left); on=vis>r.width*.6 && r.top<innerHeight && r.bottom>0; }
-      if(dsRects[k]) dsRects[k].classList.toggle('lit',on); });
+      if(active){ const r=sl.getBoundingClientRect(); const vis=Math.min(r.right,innerWidth)-Math.max(r.left,left); const vv=Math.min(r.bottom,innerHeight)-Math.max(r.top,60); on=vis>r.width*.6 && vv>Math.min(r.height,innerHeight-60)*.5; }
+      if(dsRects[k]) dsRects[k].classList.toggle('lit',on); if(mDs[k]) mDs[k].classList.toggle('lit',on); });
   }
   const bmRects=$$('.die .bm'), words=$$('.word'), bramIdx=secs.findIndex(s=>s.id==='bram');
   function litBram(ri){
@@ -680,7 +703,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     if(ri===bramIdx){ words.forEach((w,k)=>{ if(w.getBoundingClientRect().top<innerHeight*.55) act=k; }); if(act<0) act=0; }
     else if(ri>bramIdx) act=words.length;
     words.forEach((w,k)=>{ const lit=k===act, wr=k<act; w.classList.toggle('lit',lit); w.classList.toggle('wr',wr);
-      if(bmRects[k]){ bmRects[k].classList.toggle('lit',lit); bmRects[k].classList.toggle('wr',wr); } });
+      [bmRects[k],mBm[k]].forEach(r=>{ if(r){ r.classList.toggle('lit',lit); r.classList.toggle('wr',wr); } }); });
   }
   function onScroll(){
     topBar.classList.toggle('solid',scrollY>30);
