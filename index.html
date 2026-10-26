@@ -727,7 +727,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     else { (function r(t){ lenis.raf(t); requestAnimationFrame(r); })(0); }
   }
   addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
-  $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ const el=document.querySelector(a.getAttribute('href')); if(!el) return; e.preventDefault(); if(lenis) lenis.scrollTo(el,{offset:-40,duration:1.6}); else el.scrollIntoView({behavior:reduce?'auto':'smooth'}); }));
+  // jump to the START of a section; pinned sections sit inside a pin-spacer, so aim at the spacer
+  function jumpTo(el){
+    const pin=el.parentElement && el.parentElement.classList.contains('pin-spacer') ? el.parentElement : null;
+    const box=(pin||el).getBoundingClientRect();
+    const y=el.id==='cfg' ? 0 : Math.max(0, box.top + scrollY - (pin?0:40));
+    if(lenis) lenis.scrollTo(y,{duration:1.6}); else scrollTo({top:y,behavior:reduce?'auto':'smooth'});
+  }
+  $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ const el=document.querySelector(a.getAttribute('href')); if(!el) return; e.preventDefault(); jumpTo(el); }));
 
   /* ---------- copy email ---------- */
   $('#copy').addEventListener('click',function(){ const b=this, el=$('#email');
